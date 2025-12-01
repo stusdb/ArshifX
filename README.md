@@ -1,2 +1,0 @@
-# animax
-anime 
