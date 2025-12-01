@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ArshifX - تحميل الأنمي بروابط مباشرة ومضغوطة">
+    <meta name="theme-color" content="#ff0a0a">
+    <title>الأنمي | ArshifX</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff0a0a;
+            --primary-dark: #cc0000;
+            --primary-glow: rgba(255, 10, 10, 0.4);
+            --bg-dark: #0a0a0a;
+            --bg-glass: rgba(30, 30, 30, 0.6);
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --border-color: rgba(255, 10, 10, 0.25);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-dark); border-radius: 5px; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #151515 50%, #050505 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(255, 10, 10, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 10, 10, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo-icon {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: var(--primary);
+        }
+
+        .nav-logo-text {
+            font-size: 1.5em;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .nav-logo-text .x-letter { color: var(--primary); }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            color: var(--text-primary);
+            border-color: var(--primary);
+        }
+
+        /* Main Content */
+        .main {
+            padding: 100px 0 60px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-title span { color: var(--primary); }
+
+        .page-desc {
+            color: var(--text-secondary);
+            font-size: 1.1em;
+        }
+
+        /* قسم البحث والفلترة المتقدم */
+        .search-filter-section {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 14px 50px 14px 20px;
+            border-radius: 50px;
+            color: white;
+            font-family: inherit;
+            font-size: 1em;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2em;
+        }
+
+        .filter-select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 14px 20px;
+            border-radius: 50px;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .filter-select option {
+            background: var(--bg-dark);
+            color: white;
+        }
+
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .results-count span {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Cards Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .content-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(255, 10, 10, 0.15);
+            border-color: var(--primary);
+        }
+
+        .card-image {
+            position: relative;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .content-card:hover .card-image img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            font-size: 1.1em;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* أزرار تحميل المواسم */
+        .seasons-download {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .season-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: var(--transition);
+        }
+
+        .season-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .season-btn .season-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .season-btn i {
+            font-size: 1.1em;
+        }
+
+        .download-all-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            margin-top: 5px;
+        }
+
+        .download-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--primary-glow);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .pagination-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .pagination-btn:hover,
+        .pagination-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            margin: 0 15px;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-secondary);
+            display: none;
+        }
+
+        .no-results i {
+            font-size: 5em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .no-results h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+        }
+
+        .no-results p {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* زر الرجوع للأعلى */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3em;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+            box-shadow: 0 5px 20px var(--primary-glow);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--primary-glow);
+        }
+
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loading-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--border-color);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(5, 5, 5, 0.9);
+            border-top: 1px solid var(--border-color);
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .nav-content { flex-wrap: wrap; justify-content: center; }
+            .page-title { font-size: 2em; }
+            .content-grid { grid-template-columns: 1fr; }
+            .search-row { flex-direction: column; }
+            .search-box { width: 100%; }
+            .filter-select { width: 100%; }
+            .results-info { flex-direction: column; gap: 10px; text-align: center; }
+            .back-to-top { bottom: 20px; left: 20px; width: 45px; height: 45px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading -->
+    <div class="loading-overlay" id="loader">
+        <div class="loader"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <a href="index.html" class="nav-logo">
+                    <div class="nav-logo-icon"><i class="ri-play-fill"></i></div>
+                    <span class="nav-logo-text">Arshif<span class="x-letter">X</span></span>
+                </a>
+
+                <a href="index.html" class="back-btn">
+                    <i class="ri-arrow-right-line"></i> الرئيسية
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">مكتبة <span>الأنمي</span></h1>
+                <p class="page-desc">ملفات مجمعة لأقوى أعمال الموسم</p>
+            </div>
+
+            <!-- قسم البحث والفلترة -->
+            <div class="search-filter-section">
+                <div class="search-row">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" class="search-input" placeholder="ابحث بالعربي أو English...">
+                        <i class="ri-search-line search-icon"></i>
+                    </div>
+                    <select id="yearFilter" class="filter-select">
+                        <option value="">كل السنوات</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                        <option value="older">قبل 2020</option>
+                    </select>
+                    <select id="sortFilter" class="filter-select">
+                        <option value="newest">الأحدث أولاً</option>
+                        <option value="oldest">الأقدم أولاً</option>
+                        <option value="alpha">أبجدي (أ-ي)</option>
+                        <option value="episodes">الأكثر حلقات</option>
+                    </select>
+                </div>
+                <div class="results-info">
+                    <div class="results-count">عدد النتائج: <span id="resultsCount">0</span></div>
+                    <div class="page-info">صفحة <span id="currentPage">1</span> من <span id="totalPages">1</span></div>
+                </div>
+            </div>
+
+            <div class="content-grid" id="animeGrid">
+                <!-- البطاقات ستُضاف ديناميكياً -->
+            </div>
+
+            <div class="no-results" id="noResults">
+                <i class="ri-search-eye-line"></i>
+                <h3>لا توجد نتائج</h3>
+                <p>جرب البحث بكلمات مختلفة أو غيّر الفلاتر</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </main>
+
+    <!-- زر الرجوع للأعلى -->
+    <button class="back-to-top" id="backToTop">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    <footer class="footer">
+        <div class="container">
+            <p>جميع الحقوق محفوظة لـ ArshifX &copy; 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        // بيانات الأنمي مع دعم البحث بالعربي والإنجليزي
+        const animeData = [
+            {
+                id: 1,
+                titleAr: 'هجوم العمالقة',
+                titleEn: 'Attack on Titan',
+                year: 2013,
+                totalEpisodes: 87,
+                seasons: [
+                    { name: 'الموسم 1', episodes: 25, link: '#' },
+                    { name: 'الموسم 2', episodes: 12, link: '#' },
+                    { name: 'الموسم 3', episodes: 22, link: '#' },
+                    { name: 'الموسم 4', episodes: 28, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1541562232579-512a21360020?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 2,
+                titleAr: 'جوجوتسو كايسن',
+                titleEn: 'Jujutsu Kaisen',
+                year: 2020,
+                totalEpisodes: 47,
+                seasons: [
+                    { name: 'الموسم 1', episodes: 24, link: '#' },
+                    { name: 'الموسم 2', episodes: 23, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 3,
+                titleAr: 'كاغويا ساما: الحب حرب',
+                titleEn: 'Kaguya Sama Love is War',
+                year: 2019,
+                totalEpisodes: 37,
+                seasons: [
+                    { name: 'الموسم 1', episodes: 12, link: '#' },
+                    { name: 'الموسم 2', episodes: 12, link: '#' },
+                    { name: 'الموسم 3', episodes: 13, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 4,
+                titleAr: 'ون بيس',
+                titleEn: 'One Piece',
+                year: 1999,
+                totalEpisodes: 1100,
+                seasons: [
+                    { name: 'آرك إيست بلو', episodes: 61, link: '#' },
+                    { name: 'آرك ألاباستا', episodes: 92, link: '#' },
+                    { name: 'آرك سكايبيا', episodes: 52, link: '#' },
+                    { name: 'آرك وانو', episodes: 197, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1607604276583-eef5f0b7ac5d?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 5,
+                titleAr: 'ديث نوت',
+                titleEn: 'Death Note',
+                year: 2006,
+                totalEpisodes: 37,
+                seasons: [
+                    { name: 'المسلسل كامل', episodes: 37, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 6,
+                titleAr: 'ناروتو شيبودن',
+                titleEn: 'Naruto Shippuden',
+                year: 2007,
+                totalEpisodes: 500,
+                seasons: [
+                    { name: 'آرك كازيكاجي', episodes: 32, link: '#' },
+                    { name: 'آرك الألم', episodes: 30, link: '#' },
+                    { name: 'حرب النينجا', episodes: 88, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1601850494422-3cf14624b0b3?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 7,
+                titleAr: 'دراغون بول سوبر',
+                titleEn: 'Dragon Ball Super',
+                year: 2015,
+                totalEpisodes: 131,
+                seasons: [
+                    { name: 'آرك بيروس', episodes: 14, link: '#' },
+                    { name: 'آرك فريزا الذهبي', episodes: 13, link: '#' },
+                    { name: 'آرك بطولة القوة', episodes: 55, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1612178537253-bccd437b730e?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 8,
+                titleAr: 'قاتل الشياطين',
+                titleEn: 'Demon Slayer',
+                year: 2019,
+                totalEpisodes: 55,
+                seasons: [
+                    { name: 'الموسم 1', episodes: 26, link: '#' },
+                    { name: 'حي الترفيه', episodes: 11, link: '#' },
+                    { name: 'قرية الحدادين', episodes: 11, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1606663889134-b1dedb5ed8b7?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 9,
+                titleAr: 'سبي فاميلي',
+                titleEn: 'Spy x Family',
+                year: 2022,
+                totalEpisodes: 37,
+                seasons: [
+                    { name: 'الموسم 1 جزء 1', episodes: 12, link: '#' },
+                    { name: 'الموسم 1 جزء 2', episodes: 13, link: '#' },
+                    { name: 'الموسم 2', episodes: 12, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1614583225154-5fcdda07019e?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 10,
+                titleAr: 'تشينسو مان',
+                titleEn: 'Chainsaw Man',
+                year: 2022,
+                totalEpisodes: 12,
+                seasons: [
+                    { name: 'الموسم 1', episodes: 12, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 11,
+                titleAr: 'فينلاند ساغا',
+                titleEn: 'Vinland Saga',
+                year: 2019,
+                totalEpisodes: 48,
+                seasons: [
+                    { name: 'الموسم 1', episodes: 24, link: '#' },
+                    { name: 'الموسم 2', episodes: 24, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1578632292335-df3abbb0d586?q=80&w=400&auto=format&fit=crop'
+            },
+            {
+                id: 12,
+                titleAr: 'بلو لوك',
+                titleEn: 'Blue Lock',
+                year: 2022,
+                totalEpisodes: 24,
+                seasons: [
+                    { name: 'الموسم 1', episodes: 24, link: '#' }
+                ],
+                image: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=400&auto=format&fit=crop'
+            }
+        ];
+
+        // إعدادات الصفحات
+        const ITEMS_PER_PAGE = 6;
+        let currentPage = 1;
+        let filteredData = [...animeData];
+
+        // عناصر DOM
+        const grid = document.getElementById('animeGrid');
+        const searchInput = document.getElementById('searchInput');
+        const yearFilter = document.getElementById('yearFilter');
+        const sortFilter = document.getElementById('sortFilter');
+        const noResults = document.getElementById('noResults');
+        const pagination = document.getElementById('pagination');
+        const resultsCount = document.getElementById('resultsCount');
+        const currentPageSpan = document.getElementById('currentPage');
+        const totalPagesSpan = document.getElementById('totalPages');
+        const backToTop = document.getElementById('backToTop');
+        const loader = document.getElementById('loader');
+
+        // إنشاء بطاقة أنمي
+        function createAnimeCard(anime) {
+            const seasonsHTML = anime.seasons.map(season => `
+                <a href="${season.link}" class="season-btn">
+                    <span class="season-info">
+                        <i class="ri-folder-video-line"></i>
+                        ${season.name} (${season.episodes} حلقة)
+                    </span>
+                    <i class="ri-download-2-line"></i>
+                </a>
+            `).join('');
+
+            return `
+                <div class="content-card" data-title-ar="${anime.titleAr}" data-title-en="${anime.titleEn.toLowerCase()}" data-year="${anime.year}" data-episodes="${anime.totalEpisodes}">
+                    <div class="card-image">
+                        <img src="${anime.image}" loading="lazy" alt="${anime.titleAr}">
+                    </div>
+                    <div class="card-content">
+                        <h3>${anime.titleAr}</h3>
+                        <div class="card-meta">
+                            <span><i class="ri-calendar-line"></i> ${anime.year}</span>
+                            <span><i class="ri-play-circle-line"></i> ${anime.totalEpisodes} حلقة</span>
+                            <span><i class="ri-stack-line"></i> ${anime.seasons.length} ${anime.seasons.length > 1 ? 'مواسم' : 'موسم'}</span>
+                        </div>
+                        <div class="seasons-download">
+                            ${seasonsHTML}
+                            ${anime.seasons.length > 1 ? `<a href="#" class="download-all-btn"><i class="ri-download-cloud-2-line"></i> تحميل الكل</a>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // فلترة وترتيب البيانات
+        function filterAndSortData() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const yearValue = yearFilter.value;
+            const sortValue = sortFilter.value;
+
+            // فلترة
+            filteredData = animeData.filter(anime => {
+                // البحث بالعربي والإنجليزي
+                const matchSearch = !searchTerm || 
+                    anime.titleAr.toLowerCase().includes(searchTerm) || 
+                    anime.titleEn.toLowerCase().includes(searchTerm);
+
+                // فلترة السنة
+                let matchYear = true;
+                if (yearValue) {
+                    if (yearValue === 'older') {
+                        matchYear = anime.year < 2020;
+                    } else {
+                        matchYear = anime.year === parseInt(yearValue);
+                    }
+                }
+
+                return matchSearch && matchYear;
+            });
+
+            // ترتيب
+            filteredData.sort((a, b) => {
+                switch (sortValue) {
+                    case 'newest': return b.year - a.year;
+                    case 'oldest': return a.year - b.year;
+                    case 'alpha': return a.titleAr.localeCompare(b.titleAr, 'ar');
+                    case 'episodes': return b.totalEpisodes - a.totalEpisodes;
+                    default: return 0;
+                }
+            });
+
+            currentPage = 1;
+            renderPage();
+        }
+
+        // عرض الصفحة الحالية
+        function renderPage() {
+            const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+            const start = (currentPage - 1) * ITEMS_PER_PAGE;
+            const end = start + ITEMS_PER_PAGE;
+            const pageData = filteredData.slice(start, end);
+
+            // تحديث العداد
+            resultsCount.textContent = filteredData.length;
+            currentPageSpan.textContent = currentPage;
+            totalPagesSpan.textContent = totalPages || 1;
+
+            // عرض البطاقات أو رسالة لا توجد نتائج
+            if (filteredData.length === 0) {
+                grid.innerHTML = '';
+                noResults.style.display = 'block';
+                pagination.innerHTML = '';
+            } else {
+                noResults.style.display = 'none';
+                grid.innerHTML = pageData.map(createAnimeCard).join('');
+                renderPagination(totalPages);
+            }
+        }
+
+        // عرض أزرار الصفحات
+        function renderPagination(totalPages) {
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            
+            // زر السابق
+            html += `<button class="pagination-btn ${currentPage === 1 ? 'disabled' : ''}" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                <i class="ri-arrow-right-s-line"></i>
+            </button>`;
+
+            // أرقام الصفحات
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span class="pagination-info">...</span>`;
+                }
+            }
+
+            // زر التالي
+            html += `<button class="pagination-btn ${currentPage === totalPages ? 'disabled' : ''}" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                <i class="ri-arrow-left-s-line"></i>
+            </button>`;
+
+            pagination.innerHTML = html;
+        }
+
+        // الانتقال لصفحة معينة
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+            if (page >= 1 && page <= totalPages) {
+                currentPage = page;
+                renderPage();
+                window.scrollTo({ top: 400, behavior: 'smooth' });
+            }
+        }
+
+        // أحداث الفلترة
+        searchInput.addEventListener('input', filterAndSortData);
+        yearFilter.addEventListener('change', filterAndSortData);
+        sortFilter.addEventListener('change', filterAndSortData);
+
+        // زر الرجوع للأعلى
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // إخفاء اللودر عند اكتمال التحميل
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 500);
+            filterAndSortData();
+        });
+    </script>
+</body>
+</html>

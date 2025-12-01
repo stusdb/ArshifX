@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ArshifX - أفضل موقع لتحميل الأنمي والمسلسلات بروابط مباشرة ومضغوطة.">
+    <meta name="theme-color" content="#ff0a0a">
+    <title>ArshifX | أرشيفك الشامل للمحتوى</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #ff0a0a;
+            --primary-dark: #cc0000;
+            --primary-glow: rgba(255, 10, 10, 0.4);
+            --bg-dark: #0a0a0a;
+            --bg-glass: rgba(30, 30, 30, 0.6);
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --border-color: rgba(255, 10, 10, 0.25);
+            --radius-md: 20px;
+            --radius-lg: 30px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #151515 50%, #050505 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(255, 10, 10, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 10, 10, 0.05) 0%, transparent 50%);
+            default-events: none;
+            z-index: 0;
+        }
+
+        /* Loading Screen */
+        .loader {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            font-size: 3em;
+            font-weight: 800;
+            animation: loaderPulse 1.5s ease-in-out infinite;
+        }
+
+        .loader-logo .x-letter { color: var(--primary); }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 10, 10, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes loaderPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Particles Background */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            default-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { 
+                transform: translateY(-100vh) rotate(720deg); 
+                opacity: 0;
+            }
+        }
+
+        /* Scroll to Top Button */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5em;
+            cursor: default;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            box-shadow: 0 5px 20px var(--primary-glow);
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--primary-glow);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 80px 20px 60px;
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Fade In Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            border: 3px solid var(--primary);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 var(--primary-glow); }
+            50% { box-shadow: 0 0 30px 10px var(--primary-glow); }
+        }
+
+        .logo-text {
+            font-size: 4em;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+        }
+
+        .logo-text .x-letter {
+            color: var(--primary);
+            text-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        .tagline {
+            font-size: 1.4em;
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            max-width: 500px;
+            animation: fadeInUp 0.8s ease-out 0.2s backwards;
+        }
+
+        .choices {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .choice-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 50px 60px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition);
+            min-width: 280px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Card Shine Effect */
+        .choice-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .choice-card:hover::before {
+            left: 100%;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px var(--primary-glow);
+        }
+
+        .choice-icon {
+            font-size: 4em;
+            color: var(--primary);
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .choice-card:hover .choice-icon {
+            transform: scale(1.1);
+        }
+
+        .choice-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .choice-desc {
+            color: var(--text-secondary);
+            font-size: 1em;
+        }
+
+        /* Features Section */
+        .features {
+            position: relative;
+            z-index: 1;
+            padding: 60px 20px;
+            background: rgba(15, 15, 15, 0.8);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: var(--text-primary);
+        }
+
+        .section-title span {
+            color: var(--primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .feature-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        /* Friends Sites Section */
+        .friends {
+            position: relative;
+            z-index: 1;
+            padding: 60px 20px;
+        }
+
+        .friends-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .friend-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 20px 30px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .friend-card:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .friend-card i {
+            font-size: 1.5em;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .friend-card:hover i {
+            transform: rotate(10deg);
+        }
+
+        .friend-card span {
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 40px 20px;
+            background: rgba(10, 10, 10, 0.9);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            font-size: 1.8em;
+            font-weight: 800;
+        }
+
+        .footer-logo .x-letter {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.3em;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-3px) rotate(5deg);
+            box-shadow: 0 5px 20px var(--primary-glow);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .footer-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-links a:hover::after {
+            width: 100%;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .copyright span {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { padding: 60px 20px 40px; min-height: auto; }
+            .logo-text { font-size: 2.8em; }
+            .tagline { font-size: 1.1em; }
+            .choices { flex-direction: column; align-items: center; }
+            .choice-card { padding: 40px 50px; min-width: 260px; }
+            .section-title { font-size: 1.6em; }
+            .footer-links { gap: 20px; }
+            .scroll-top { bottom: 20px; left: 20px; width: 45px; height: 45px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-logo">Arshif<span class="x-letter">X</span></div>
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <i class="ri-arrow-up-line"></i>
+    </button>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="logo">
+            <div class="logo-icon"><i class="ri-play-fill"></i></div>
+            <div class="logo-text">Arshif<span class="x-letter">X</span></div>
+        </div>
+        
+        <p class="tagline">أرشيفك الشامل لتحميل الأنمي والمسلسلات بجودة عالية وروابط مباشرة</p>
+
+        <div class="choices">
+            <a href="anime.html" class="choice-card">
+                <div class="choice-icon"><i class="ri-sword-line"></i></div>
+                <div class="choice-title">الأنمي</div>
+                <div class="choice-desc">تصفح وحمّل أحدث الأنميات</div>
+            </a>
+
+            <a href="series.html" class="choice-card">
+                <div class="choice-icon"><i class="ri-movie-2-line"></i></div>
+                <div class="choice-title">المسلسلات</div>
+                <div class="choice-desc">تصفح وحمّل أقوى المسلسلات</div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">لماذا <span>ArshifX</span>؟</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="ri-speed-up-line"></i></div>
+                <div class="feature-title">روابط سريعة</div>
+                <div class="feature-desc">روابط تحميل مباشرة وسريعة بدون انتظار أو إعلانات مزعجة</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="ri-hd-line"></i></div>
+                <div class="feature-title">جودة عالية</div>
+                <div class="feature-desc">جميع المحتويات بجودة عالية تصل إلى 1080p و 4K</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="ri-refresh-line"></i></div>
+                <div class="feature-title">تحديث مستمر</div>
+                <div class="feature-desc">نضيف أحدث الحلقات والمسلسلات بشكل يومي</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="ri-file-zip-line"></i></div>
+                <div class="feature-title">ملفات مضغوطة</div>
+                <div class="feature-desc">خيارات تحميل مضغوطة لتوفير مساحة التخزين</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Friends Sites Section -->
+    <section class="friends">
+        <h2 class="section-title">تطبيقات <span>صديقة</span></h2>
+        <div class="friends-grid">
+            <a href="#" target="_blank" class="friend-card">
+                <i class="ri-film-line"></i>
+                <span>AnimeRyu</span>
+            </a>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Arshif<span class="x-letter">X</span></div>
+            
+            <div class="social-links">
+                <a href="https://t.me/arshifx" target="_blank" class="social-link" title="Telegram">
+                    <i class="ri-telegram-fill"></i>
+                </a>
+                <a href="#" target="_blank" class="social-link" title="Twitter">
+                    <i class="ri-twitter-x-fill"></i>
+                </a>
+                <a href="#" target="_blank" class="social-link" title="TikTok">
+                    <i class="ri-tiktok-fill"></i>
+                </a>
+                <a href="#" target="_blank" class="social-link" title="Discord">
+                    <i class="ri-discord-fill"></i>
+                </a>
+                <a href="#" target="_blank" class="social-link" title="Instagram">
+                    <i class="ri-instagram-fill"></i>
+                </a>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">سياسة الخصوصية</a>
+                <a href="#">شروط الاستخدام</a>
+                <a href="#">تواصل معنا</a>
+                <a href="#">الأسئلة الشائعة</a>
+            </div>
+
+            <p class="copyright">
+                جميع الحقوق محفوظة © 2025 <span>ArshifX</span> - المحتوى المعروض للأغراض التعليمية فقط
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Hide loader after page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 800);
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 10) + 's';
+                particle.style.width = (Math.random() * 4 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                container.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Scroll to top button visibility
+        window.addEventListener('scroll', () => {
+            const scrollTop = document.getElementById('scrollTop');
+            if (window.scrollY > 300) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+    </script>
+</body>
+</html>
